@@ -1,10 +1,11 @@
 from bs4 import BeautifulSoup
-import urllib
+import requests
 
-request = urllib.request.urlopen('https://www.cathaybk.com.tw/cathaybk/personal_info07_print.asp')
-content = request.read().decode('big5')
+request = requests.get('https://www.cathaybk.com.tw/cathaybk/personal_info07_print.asp')
+request.encoding = 'big5'
 
-soup = BeautifulSoup(''.join(content), "lxml")
+soup = BeautifulSoup(''.join(request.text), "lxml")
+print(request.encoding)
 
 print(soup.prettify())  # 標準縮排格式
 print("\n")
