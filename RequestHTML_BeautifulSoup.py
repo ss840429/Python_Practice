@@ -1,3 +1,6 @@
+#	Get currency on website and print formatted data  
+#	Also save data into csv file named by date
+
 from bs4 import BeautifulSoup
 import requests
 import csv
@@ -9,16 +12,7 @@ request.encoding = 'big5'
 soup = BeautifulSoup(''.join(request.text), "lxml")
 #print(request.encoding)
 
-
-# print(soup.prettify())  # 標準縮排格式
-# print("\n")
-# print(soup.title.string) # Title  
-# print("\n")
-# print(soup.p)	# <p> tag
-# print(soup.a)	# <a> tag
-# print("\n")
-
-now = datetime.datetime.now().strftime("%Y%m%d%H%M%S")
+now = datetime.datetime.now().strftime("%Y%m%d")
 
 for ps in soup.find_all('p'):				# Find all <p> tags
 	print( ps.find('b').string, end='    ')
@@ -28,10 +22,10 @@ for ps in soup.find_all('p'):				# Find all <p> tags
 
 for ps in soup('tr', bgcolor='#FFFFFF'):	# Find all <tr> where bgcolor='#FFFFFF'
 	for index, ps1 in enumerate(ps('td')):
-		print( '{:10}'.format(ps1.string.replace(' ', '')), end='\t')
+		print( '{:12}'.format(ps1.string.replace(' ', '')), end='\t')
 	print()
 
-with open( str(now+'.csv'), 'w') as csvfile:				# Open csv file named by time
+with open( str(now+'.csv'), 'w', newline='') as csvfile:				# Open csv file named by time
 	fieldnames = ['Currency', '幣別', 'Buy', 'Sell']
 	writer = csv.writer(csvfile)
 	writer.writerow( fieldnames )
