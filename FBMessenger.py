@@ -1,3 +1,6 @@
+# Please get the fbchat library from https://github.com/ss840429/fbchat
+# which is fixed some bug
+
 import fbchat
 
 
