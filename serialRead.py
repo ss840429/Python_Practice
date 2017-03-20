@@ -17,10 +17,13 @@ with serial.Serial('COM9', 9600, timeout=2) as s:
 
 		if time > 200:
 			break
-		if line.startswith('Acce :'):
-			line = line[6:]
+		if line.startswith('Acce : '):
+			line = line[len('Acce : '):]
 			acc = line.split(' ')
-			ax, ay, az = float(acc[0]), float(acc[1]), float(acc[2])
+			try:
+				ax, ay, az = float(acc[0]), float(acc[1]), float(acc[2])
+			except:
+				continue
 			if lastA1 != 0 and lastAx != lastA1 :
 				axa.plot([lasttimeA, time], [lastAx, ax-lastA1], color='r')
 				axa.plot([lasttimeA, time], [lastAy, ay-lastA2], color='g')
